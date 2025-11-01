@@ -11,7 +11,7 @@ npm install -g mcp-gearbox
 ## Prerequisites
 
 - Node.js 20.0.0 or higher
-- Python 3.11+ (automatically detected during installation)
+- uv or Python 3.11+ (automatically detected during installation)
 - Git (for installation from source)
 
 ## Usage
@@ -27,6 +27,10 @@ mcp init -a copilot
 mcp init -a continue
 mcp init -a kiro
 mcp init -a cursor
+mcp init -a qoder
+mcp init -a claude
+mcp init -a gemini
+mcp init -a lmstudio
 
 # Initialize in current directory
 mcp init .
