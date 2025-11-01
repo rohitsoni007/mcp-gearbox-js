@@ -23,11 +23,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rohitsoni007/mcp-kit.git"
+    "url": "https://github.com/rohitsoni007/mcp-gearbox-js"
   },
-  "homepage": "https://github.com/rohitsoni007/mcp-kit",
+  "homepage": "https://github.com/rohitsoni007/mcp-gearbox-js",
   "bugs": {
-    "url": "https://github.com/rohitsoni007/mcp-kit/issues"
+    "url": "https://github.com/rohitsoni007/mcp-gearbox-js"
   },
   "engines": {
     "node": ">=20.0.0"
