@@ -12,7 +12,7 @@ async function installMcpCli() {
     console.log('Found uv, installing with uv tool...');
     
     const uvProcess = spawn(uvPath, [
-      'tool', 'install', 'mcp-cli', 
+      'tool', 'install', 'mcp-gearbox', 
       '--from', 'git+https://github.com/rohitsoni007/mcp-kit'
     ], { stdio: 'inherit' });
 
