@@ -8,6 +8,7 @@
     "mcp": "./bin/mcp.js"
   },
   "scripts": {
+    "build": "echo 'Build completed - no compilation needed for this Node.js project'",
     "postinstall": "node scripts/install.js",
     "test": "node test/test.js"
   },
