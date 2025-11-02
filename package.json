@@ -1,6 +1,6 @@
 {
   "name": "mcp-gearbox",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "A command-line interface tool for MCP server management and project initialization",
   "main": "index.js",
   "bin": {
