@@ -10,25 +10,33 @@ const path = require('path');
  */
 async function executeMcpCli(args = [], options = {}) {
   return new Promise((resolve, reject) => {
-    // Try to find Python executable
-    const pythonCommands = ['python3', 'python', 'py'];
-    let pythonPath = null;
+    let command = null;
+    let commandArgs = args;
 
-    for (const cmd of pythonCommands) {
-      try {
-        pythonPath = which.sync(cmd);
-        break;
-      } catch (e) {
-        // Continue to next command
+    // First try to find mcp-cli executable (installed via uv or pip)
+    try {
+      command = which.sync('mcp-cli');
+    } catch (e) {
+      // Fallback to python -m approach
+      const pythonCommands = ['python3', 'python', 'py'];
+
+      for (const cmd of pythonCommands) {
+        try {
+          command = which.sync(cmd);
+          commandArgs = ['-m', 'mcp_cli', ...args];
+          break;
+        } catch (e) {
+          // Continue to next command
+        }
       }
     }
 
-    if (!pythonPath) {
-      return reject(new Error('Python not found. Please install Python 3.11+ to use mcp-cli.'));
+    if (!command) {
+      return reject(new Error('mcp-cli not found. Please install it using: node scripts/install.js'));
     }
 
-    // Execute mcp-cli using python -m
-    const child = spawn(pythonPath, ['-m', 'mcp_cli', ...args], {
+    // Execute the command
+    const child = spawn(command, commandArgs, {
       stdio: options.stdio || 'inherit',
       ...options
     });
