@@ -1,4 +1,3 @@
-import { exec, ExecOptions } from 'child_process';
 import { spawn, sync as spawnSync } from 'cross-spawn';
 import which from 'which';
 
@@ -8,19 +7,13 @@ export interface ExecutionResult {
   stderr: string;
 }
 
-export interface McpCliOptions extends ExecOptions {
+export interface McpCliOptions {
   stdio?: 'inherit' | 'pipe' | 'ignore';
+  cwd?: string;
+  env?: NodeJS.ProcessEnv;
 }
 
-/**
- * Check if running in Electron environment
- * @returns boolean indicating if running in Electron
- */
-function isElectron(): boolean {
-  return typeof process !== 'undefined' &&
-    process.versions != null &&
-    process.versions.electron != null;
-}
+
 
 /**
  * Execute mcp-cli command with given arguments
@@ -75,7 +68,7 @@ export async function executeMcpCli(
             // Continue to fallback
           }
         }
-        
+
         // Fallback to system PATH (but this might find our own binary)
         if (!command) {
           const mcpCliPath = which.sync('mcp-cli');
@@ -101,52 +94,39 @@ export async function executeMcpCli(
       clearTimeout(timeout);
     };
 
-    // Use exec for Electron, spawn for other environments
-    if (isElectron()) {
-      // Use exec for Electron
-      const fullCommand = `${command} ${argsArray.join(' ')}`;
-      exec(fullCommand, { ...options, timeout: 30000 }, (error, stdout, stderr) => {
-        cleanup();
-        if (error) {
-          resolve({ code: error.code || 1, stdout: stdout.toString(), stderr: stderr.toString() });
-        } else {
-          resolve({ code: 0, stdout: stdout.toString(), stderr: stderr.toString() });
-        }
-      });
-    } else {
-      // Use cross-spawn for other environments
-      const child = spawn(command, argsArray, {
-        stdio: options.stdio || 'pipe',
-        ...options
-      });
+    // Use cross-spawn for all environments
+    const child = spawn(command, argsArray, {
+      stdio: options.stdio || 'pipe',
+      cwd: options.cwd,
+      env: options.env
+    });
 
-      let stdout = '';
-      let stderr = '';
+    let stdout = '';
+    let stderr = '';
 
-      if (options.stdio === 'pipe') {
-        if (child.stdout) {
-          child.stdout.on('data', (data: Buffer) => {
-            stdout += data.toString();
-          });
-        }
-
-        if (child.stderr) {
-          child.stderr.on('data', (data: Buffer) => {
-            stderr += data.toString();
-          });
-        }
+    if (options.stdio === 'pipe') {
+      if (child.stdout) {
+        child.stdout.on('data', (data: Buffer) => {
+          stdout += data.toString();
+        });
       }
 
-      child.on('close', (code: number | null) => {
-        cleanup();
-        resolve({ code: code || 0, stdout, stderr });
-      });
-
-      child.on('error', (error: Error) => {
-        cleanup();
-        reject(error);
-      });
+      if (child.stderr) {
+        child.stderr.on('data', (data: Buffer) => {
+          stderr += data.toString();
+        });
+      }
     }
+
+    child.on('close', (code: number | null) => {
+      cleanup();
+      resolve({ code: code || 0, stdout, stderr });
+    });
+
+    child.on('error', (error: Error) => {
+      cleanup();
+      reject(error);
+    });
   });
 }
 
