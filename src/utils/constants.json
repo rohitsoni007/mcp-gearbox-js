@@ -1,0 +1,18 @@
+{
+  "CONFIG_BASE_DIR": ".mcpgearbox",
+  "CONFIG_FILE_NAME": "config.json",
+  "UV_INSTALL_ARGS": [
+    "tool",
+    "install",
+    "mcp-gearbox",
+    "--force",
+    "--from",
+    "git+https://github.com/rohitsoni007/mcp-gearbox-cli"
+  ],
+  "PYTHON_INSTALL_ARGS": [
+    "-m",
+    "pip",
+    "install",
+    "git+https://github.com/rohitsoni007/mcp-gearbox-cli"
+  ]
+}
