@@ -1,4 +1,4 @@
-import { exec, ExecOptions, SpawnOptions } from 'child_process';
+import { exec, ExecOptions } from 'child_process';
 import { spawn } from 'cross-spawn';
 import which from 'which';
 
@@ -17,9 +17,9 @@ export interface McpCliOptions extends ExecOptions {
  * @returns boolean indicating if running in Electron
  */
 function isElectron(): boolean {
-  return typeof process !== 'undefined' && 
-         process.versions != null && 
-         process.versions.electron != null;
+  return typeof process !== 'undefined' &&
+    process.versions != null &&
+    process.versions.electron != null;
 }
 
 /**
@@ -34,7 +34,7 @@ export async function executeMcpCli(
 ): Promise<ExecutionResult> {
   return new Promise((resolve, reject) => {
     let command: string | null = null;
-    
+
     // Convert string to array if needed
     const argsArray = typeof args === 'string' ? args.split(' ').filter(arg => arg.trim() !== '') : args;
 
