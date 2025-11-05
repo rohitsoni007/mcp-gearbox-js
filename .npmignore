@@ -8,3 +8,6 @@ test/
 Thumbs.db
 .vscode/
 .idea/
+src/
+tsconfig.json
+*.map

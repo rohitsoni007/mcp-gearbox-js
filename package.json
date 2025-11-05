@@ -2,15 +2,18 @@
   "name": "mcp-gearbox",
   "version": "0.0.6",
   "description": "A command-line interface tool for MCP server management and project initialization",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "bin": {
-    "mcp-cli": "./bin/mcp-cli.js",
-    "mcp": "./bin/mcp.js"
+    "mcp-cli": "./dist/bin/mcp-cli.js",
+    "mcp": "./dist/bin/mcp.js"
   },
   "scripts": {
-    "build": "echo 'Build completed - no compilation needed for this Node.js project'",
+    "build": "tsc",
+    "dev": "tsc --watch",
     "postinstall": "node scripts/install.js",
-    "test": "node test/test.js"
+    "test": "node test/test.js",
+    "prepublishOnly": "npm run build"
   },
   "keywords": [
     "mcp",
@@ -41,5 +44,11 @@
   "dependencies": {
     "cross-spawn": "^7.0.3",
     "which": "^4.0.0"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
+    "@types/node": "^20.0.0",
+    "@types/which": "^3.0.4",
+    "typescript": "^5.0.0"
   }
 }
