@@ -10,7 +10,7 @@ const {
   CONFIG_FILE_NAME,
   UV_INSTALL_ARGS,
   PYTHON_INSTALL_ARGS,
-} = require("../src/utils/constants.json");
+} = require("../dist/utils/constants.json");
 
 console.log("Installing mcp-cli Python package...");
 
