@@ -1,6 +1,6 @@
 # MCP Gearbox - Node.js Wrapper
 
-A Node.js wrapper for the [MCP Gearbox](https://github.com/rohitsoni007/mcp-kit) Python CLI tool, allowing easy installation and usage via npm.
+A Node.js wrapper for the [MCP Gearbox CLI](https://github.com/rohitsoni007/mcp-gearbox-cli) Python CLI tool, allowing easy installation and usage via npm.
 
 ## Installation
 
@@ -75,8 +75,8 @@ If you get a "Python not found" error:
 
 ### Installation fails
 If the automatic installation fails:
-1. Install manually: `pip install git+https://github.com/rohitsoni007/mcp-kit`
-2. Or use uv: `uv tool install mcp-gearbox --from git+https://github.com/rohitsoni007/mcp-kit`
+1. Install manually: `pip install git+https://github.com/rohitsoni007/mcp-gearbox-cli`
+2. Or use uv: `uv tool install mcp-gearbox --from git+https://github.com/rohitsoni007/mcp-gearbox-cli`
 
 ## Supported AI Agents
 
@@ -91,9 +91,9 @@ If the automatic installation fails:
 
 ## License
 
-MIT - See the main [MCP Gearbox repository](https://github.com/rohitsoni007/mcp-kit) for details.
+MIT - See the main [MCP Gearbox CLI repository](https://github.com/rohitsoni007/mcp-gearbox-cli) for details.
 
 ## Links
 
-- [Main Repository](https://github.com/rohitsoni007/mcp-kit)
-- [Issues](https://github.com/rohitsoni007/mcp-kit/issues)
+- [Main Repository](https://github.com/rohitsoni007/mcp-gearbox-cli)
+- [Issues](https://github.com/rohitsoni007/mcp-gearbox-cli/issues)

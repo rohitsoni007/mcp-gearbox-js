@@ -13,7 +13,7 @@ async function installMcpCli() {
     
     const uvProcess = spawn(uvPath, [
       'tool', 'install', 'mcp-gearbox', 
-      '--from', 'git+https://github.com/rohitsoni007/mcp-kit'
+      '--from', 'git+https://github.com/rohitsoni007/mcp-gearbox-cli'
     ], { stdio: 'inherit' });
 
     return new Promise((resolve, reject) => {
@@ -59,7 +59,7 @@ async function installMcpCli() {
 
   const pipProcess = spawn(pythonPath, [
     '-m', 'pip', 'install', 
-    'git+https://github.com/rohitsoni007/mcp-kit'
+    'git+https://github.com/rohitsoni007/mcp-gearbox-cli'
   ], { stdio: 'inherit' });
 
   return new Promise((resolve, reject) => {
@@ -70,7 +70,7 @@ async function installMcpCli() {
       } else {
         console.error('❌ Failed to install mcp-cli with pip.');
         console.error('   Please install manually:');
-        console.error('   pip install git+https://github.com/rohitsoni007/mcp-kit');
+        console.error('   pip install git+https://github.com/rohitsoni007/mcp-gearbox-cli');
         reject(new Error('Installation failed'));
       }
     });
