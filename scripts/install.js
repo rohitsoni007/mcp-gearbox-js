@@ -5,12 +5,23 @@ const which = require("which");
 const fs = require("fs");
 const path = require("path");
 const os = require("os");
-const {
-  CONFIG_BASE_DIR,
-  CONFIG_FILE_NAME,
-  UV_INSTALL_ARGS,
-  PYTHON_INSTALL_ARGS,
-} = require("../dist/utils/constants.json");
+// Constants - defined directly to avoid dependency issues during install
+const CONFIG_BASE_DIR = ".mcpgearbox";
+const CONFIG_FILE_NAME = "config.json";
+const UV_INSTALL_ARGS = [
+  "tool",
+  "install",
+  "mcp-gearbox",
+  "--force",
+  "--from",
+  "git+https://github.com/rohitsoni007/mcp-gearbox-cli",
+];
+const PYTHON_INSTALL_ARGS = [
+  "-m",
+  "pip",
+  "install",
+  "git+https://github.com/rohitsoni007/mcp-gearbox-cli",
+];
 
 console.log("Installing mcp-cli Python package...");
 
