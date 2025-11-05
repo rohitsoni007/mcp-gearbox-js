@@ -65,6 +65,20 @@ async function example() {
 }
 ```
 
+### TypeScript Support
+
+```typescript
+import { executeMcpCli, isMcpCliInstalled, ExecutionResult } from 'mcp-gearbox';
+
+async function example(): Promise<void> {
+  const isInstalled: boolean = await isMcpCliInstalled();
+  console.log('MCP Gearbox installed:', isInstalled);
+
+  const result: ExecutionResult = await executeMcpCli(['init', '.', '-a', 'kiro']);
+  console.log('Exit code:', result.code);
+}
+```
+
 ## Troubleshooting
 
 ### Python not found
@@ -76,7 +90,7 @@ If you get a "Python not found" error:
 ### Installation fails
 If the automatic installation fails:
 1. Install manually: `pip install git+https://github.com/rohitsoni007/mcp-gearbox-cli`
-2. Or use uv: `uv tool install mcp-gearbox --from git+https://github.com/rohitsoni007/mcp-gearbox-cli`
+2. Or use uv: `uv tool install mcp-gearbox --force --from git+https://github.com/rohitsoni007/mcp-gearbox-cli`
 
 ## Supported AI Agents
 
