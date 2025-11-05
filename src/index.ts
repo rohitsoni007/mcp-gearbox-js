@@ -1,6 +1,6 @@
+import { exec, ExecOptions, SpawnOptions } from 'child_process';
 import { spawn } from 'cross-spawn';
 import which from 'which';
-import { SpawnOptions } from 'child_process';
 
 export interface ExecutionResult {
   code: number;
@@ -8,23 +8,35 @@ export interface ExecutionResult {
   stderr: string;
 }
 
-export interface McpCliOptions extends SpawnOptions {
+export interface McpCliOptions extends ExecOptions {
   stdio?: 'inherit' | 'pipe' | 'ignore';
 }
 
 /**
+ * Check if running in Electron environment
+ * @returns boolean indicating if running in Electron
+ */
+function isElectron(): boolean {
+  return typeof process !== 'undefined' && 
+         process.versions != null && 
+         process.versions.electron != null;
+}
+
+/**
  * Execute mcp-cli command with given arguments
- * @param args - Command line arguments
- * @param options - Spawn options
+ * @param args - Command line arguments (string or string array)
+ * @param options - Exec options
  * @returns Promise resolving to execution result
  */
 export async function executeMcpCli(
-  args: string[] = [],
+  args: string | string[] = [],
   options: McpCliOptions = {}
 ): Promise<ExecutionResult> {
   return new Promise((resolve, reject) => {
     let command: string | null = null;
-    let commandArgs = args;
+    
+    // Convert string to array if needed
+    const argsArray = typeof args === 'string' ? args.split(' ').filter(arg => arg.trim() !== '') : args;
 
     // First try to find mcp-cli executable (installed via uv or pip)
     try {
@@ -36,7 +48,7 @@ export async function executeMcpCli(
       for (const cmd of pythonCommands) {
         try {
           command = which.sync(cmd);
-          commandArgs = ['-m', 'mcp_cli', ...args];
+          argsArray.unshift('-m', 'mcp_cli');
           break;
         } catch (e) {
           // Continue to next command
@@ -48,34 +60,47 @@ export async function executeMcpCli(
       return reject(new Error('mcp-cli not found. Please install it using: node scripts/install.js'));
     }
 
-    // Execute the command
-    const child = spawn(command, commandArgs, {
-      stdio: options.stdio || 'inherit',
-      ...options
-    });
+    // Use exec for Electron, spawn for other environments
+    if (isElectron()) {
+      // Use exec for Electron
+      const fullCommand = `${command} ${argsArray.join(' ')}`;
+      exec(fullCommand, options, (error, stdout, stderr) => {
+        if (error) {
+          resolve({ code: error.code || 1, stdout: stdout.toString(), stderr: stderr.toString() });
+        } else {
+          resolve({ code: 0, stdout: stdout.toString(), stderr: stderr.toString() });
+        }
+      });
+    } else {
+      // Use cross-spawn for other environments
+      const child = spawn(command, argsArray, {
+        stdio: options.stdio || 'pipe',
+        ...options
+      });
 
-    let stdout = '';
-    let stderr = '';
+      let stdout = '';
+      let stderr = '';
 
-    if (child.stdout) {
-      child.stdout.on('data', (data: Buffer) => {
-        stdout += data.toString();
+      if (child.stdout) {
+        child.stdout.on('data', (data: Buffer) => {
+          stdout += data.toString();
+        });
+      }
+
+      if (child.stderr) {
+        child.stderr.on('data', (data: Buffer) => {
+          stderr += data.toString();
+        });
+      }
+
+      child.on('close', (code: number | null) => {
+        resolve({ code: code || 0, stdout, stderr });
+      });
+
+      child.on('error', (error: Error) => {
+        reject(error);
       });
     }
-
-    if (child.stderr) {
-      child.stderr.on('data', (data: Buffer) => {
-        stderr += data.toString();
-      });
-    }
-
-    child.on('close', (code: number | null) => {
-      resolve({ code: code || 0, stdout, stderr });
-    });
-
-    child.on('error', (error: Error) => {
-      reject(error);
-    });
   });
 }
 

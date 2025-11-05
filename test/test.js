@@ -1,4 +1,4 @@
-const { executeMcpCli, isMcpCliInstalled } = require('../index');
+const { executeMcpCli, isMcpCliInstalled } = require('../dist/index');
 
 async function runTests() {
   console.log('Running Node.js wrapper tests...\n');
@@ -21,8 +21,29 @@ async function runTests() {
 
       // Test 3: Execute help command
       console.log('Test 3: Getting help...');
-      const helpResult = await executeMcpCli(['--help'], { stdio: 'pipe' });
+      const helpResult = await executeMcpCli(['--help']);
       console.log(`✅ Help command completed with exit code: ${helpResult.code}\n`);
+
+      // Test 4: Execute list command with single string
+      console.log('Test 4: Getting list (single string)...');
+      const listResult = await executeMcpCli('list -a continue -j');
+      console.log(`✅ List command completed with exit code: ${listResult.code}`);
+      if (listResult.stdout) {
+        console.log(`   Output: ${listResult.stdout.trim()}`);
+      }
+      if (listResult.stderr) {
+        console.log(`   Error: ${listResult.stderr.trim()}`);
+      }
+      console.log();
+
+      // Test 5: Execute list command with array (to show both formats work)
+      console.log('Test 5: Getting list (array format)...');
+      const listResult2 = await executeMcpCli(['list', '-a', 'continue', '-j']);
+      console.log(`✅ List command completed with exit code: ${listResult2.code}`);
+      if (listResult2.stdout) {
+        console.log(`   Output: ${listResult2.stdout.trim()}`);
+      }
+      console.log();
     } else {
       console.log('⚠️  mcp-cli not installed, skipping execution tests');
       console.log('   Run: npm run postinstall');
