@@ -94,13 +94,20 @@ export async function executeMcpCli(
       );
     }
 
-    // Add timeout to prevent hanging
-    const timeout = setTimeout(() => {
-      reject(new Error("Command timed out after 30 seconds"));
-    }, 30000);
+    // Add timeout to prevent hanging, but only if command includes -j or --json
+    let timeout = null;
+    const useTimeout = argsArray.includes('-j') || argsArray.includes('--json');
+    
+    if (useTimeout) {
+      timeout = setTimeout(() => {
+        reject(new Error("Command timed out after 30 seconds"));
+      }, 30000);
+    }
 
     const cleanup = () => {
-      clearTimeout(timeout);
+      if (timeout) {
+        clearTimeout(timeout);
+      }
     };
 
     // Use cross-spawn for all environments

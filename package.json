@@ -27,9 +27,9 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rohitsoni007/mcp-gearbox-js"
+    "url": "https://github.com/rohitsoni007/mcp-gearbox-cli"
   },
-  "homepage": "https://github.com/rohitsoni007/mcp-gearbox-cli",
+  "homepage": "https://rohitsoni007.github.io/mcp-gearbox",
   "bugs": {
     "url": "https://github.com/rohitsoni007/mcp-gearbox-cli"
   },
