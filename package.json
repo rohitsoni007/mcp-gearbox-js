@@ -1,6 +1,6 @@
 {
   "name": "mcp-gearbox",
-  "version": "0.0.12",
+  "version": "0.0.11",
   "description": "A command-line interface tool for MCP server management and project initialization",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -27,7 +27,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/rohitsoni007/mcp-gearbox-cli"
+    "url": "https://github.com/rohitsoni007/mcp-gearbox-js"
   },
   "homepage": "https://rohitsoni007.github.io/mcp-gearbox",
   "bugs": {
