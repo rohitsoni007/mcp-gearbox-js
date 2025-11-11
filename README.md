@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/rohitsoni007-mcp-gearbox-js-badge.png)](https://mseep.ai/app/rohitsoni007-mcp-gearbox-js)
+
 # MCP Gearbox - Node.js Wrapper
 
 A Node.js wrapper for the [MCP Gearbox CLI](https://github.com/rohitsoni007/mcp-gearbox-cli) Python CLI tool, allowing easy installation and usage via npm.
